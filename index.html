@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RoboOS — 3D Electronics Lab</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">⚡</div>
+        <div>
+          <h1>Robo<span>OS</span></h1>
+          <p>INVENTION LAB</p>
+        </div>
+      </div>
+
+      <button class="new-project" id="newProjectBtn">
+        <span>＋</span> New Project
+      </button>
+
+      <nav>
+        <p class="nav-title">WORKSPACE</p>
+        <button class="nav-item active" data-section="lab">
+          <span>◈</span> 3D Electronics Lab
+        </button>
+        <button class="nav-item" data-section="components">
+          <span>▦</span> Components
+        </button>
+        <button class="nav-item" data-section="projects">
+          <span>▣</span> My Projects
+        </button>
+
+        <p class="nav-title">TOOLS</p>
+        <button class="nav-item" id="codeBtn">
+          <span>⌘</span> Code Lab
+        </button>
+        <button class="nav-item" id="aiBtn">
+          <span>✦</span> AI Inventor
+          <small>SOON</small>
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="tip-card">
+          <div class="tip-icon">💡</div>
+          <div>
+            <strong>Build something new</strong>
+            <p>Your components.<br>Your imagination.</p>
+          </div>
+        </div>
+
+        <div class="user-card">
+          <div class="avatar">G</div>
+          <div>
+            <strong>Inventor</strong>
+            <p>Free Workspace</p>
+          </div>
+          <button>•••</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <main class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="breadcrumb">
+          <span>RoboOS</span>
+          <b>/</b>
+          <strong id="projectName">Untitled Invention</strong>
+        </div>
+
+        <div class="top-actions">
+          <div class="save-status">
+            <span class="status-dot"></span>
+            <span id="saveStatus">All changes saved</span>
+          </div>
+          <button class="icon-btn" id="helpBtn">?</button>
+          <button class="avatar small">G</button>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <section class="content">
+
+        <div class="welcome-row">
+          <div>
+            <p class="eyebrow">YOUR CREATIVE WORKSPACE</p>
+            <h2>Build something <span>extraordinary.</span></h2>
+            <p class="subtitle">
+              Design, connect, and simulate your own electronic inventions.
+            </p>
+          </div>
+
+          <button class="run-btn" id="runBtn">
+            <span class="play-icon">▶</span>
+            <span id="runText">Run Simulation</span>
+          </button>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-symbol blue">◈</div>
+            <div>
+              <p>Components</p>
+              <h3 id="componentCount">0</h3>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-symbol purple">⌁</div>
+            <div>
+              <p>Connections</p>
+              <h3 id="connectionCount">0</h3>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-symbol green">⚡</div>
+            <div>
+              <p>Simulation</p>
+              <h3 id="simulationStatus">Ready</h3>
+            </div>
+          </div>
+
+          <div class="stat-card progress-card">
+            <div class="progress-info">
+              <p>Project Progress</p>
+              <h3 id="progressText">0%</h3>
+            </div>
+            <div class="progress-bar">
+              <div id="progressFill"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LAB -->
+        <div class="lab-layout">
+
+          <div class="lab-panel">
+
+            <div class="panel-header">
+              <div>
+                <h3>3D Electronics Lab</h3>
+                <p>Design your invention in an interactive workspace.</p>
+              </div>
+
+              <div class="panel-tools">
+                <button class="tool-btn active" id="selectTool">↖ Select</button>
+                <button class="tool-btn" id="wireTool">⌁ Wire</button>
+                <button class="tool-btn" id="resetCamera">⟳</button>
+              </div>
+            </div>
+
+            <div class="canvas-wrapper">
+              <canvas id="threeCanvas"></canvas>
+
+              <div class="canvas-overlay top-left">
+                <div class="live-indicator">
+                  <span></span> 3D ENGINE ONLINE
+                </div>
+              </div>
+
+              <div class="canvas-overlay top-right">
+                <button class="view-btn active" data-view="perspective">3D</button>
+                <button class="view-btn" data-view="top">TOP</button>
+                <button class="view-btn" data-view="front">FRONT</button>
+              </div>
+
+              <div class="canvas-overlay bottom-left">
+                <div class="hint-box">
+                  <span>🖱️</span>
+                  <div>
+                    <strong>Explore your workspace</strong>
+                    <p>Drag to rotate • Scroll to zoom • Right-click to move</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="canvas-overlay bottom-right">
+                <div class="zoom-controls">
+                  <button id="zoomIn">＋</button>
+                  <button id="zoomOut">−</button>
+                  <button id="fitView">⌗</button>
+                </div>
+              </div>
+
+              <div class="simulation-overlay" id="simulationOverlay">
+                <div class="sim-icon">⚡</div>
+                <h3>Simulation Running</h3>
+                <p>Your invention is being simulated in 3D.</p>
+                <div class="sim-loader"></div>
+              </div>
+
+            </div>
+
+            <div class="canvas-footer">
+              <div class="footer-info">
+                <span class="online-dot"></span>
+                <span id="engineText">Engine ready</span>
+              </div>
+              <div class="footer-info">
+                <span>Grid</span>
+                <strong>10 mm</strong>
+              </div>
+              <div class="footer-info">
+                <span>Objects</span>
+                <strong id="objectCount">0</strong>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT PANEL -->
+          <div class="right-panel">
+
+            <div class="right-section">
+              <div class="section-heading">
+                <div>
+                  <h3>Components</h3>
+                  <p>Drag or click to add</p>
+                </div>
+                <button class="more-btn" id="componentMore">•••</button>
+              </div>
+
+              <div class="component-grid">
+
+                <button class="component-card" data-component="arduino">
+                  <div class="component-icon arduino-icon">▣</div>
+                  <strong>Arduino Uno</strong>
+                  <span>Controller</span>
+                </button>
+
+                <button class="component-card" data-component="breadboard">
+                  <div class="component-icon breadboard-icon">▦</div>
+                  <strong>Breadboard</strong>
+                  <span>Prototype</span>
+                </button>
+
+                <button class="component-card" data-component="servo">
+                  <div class="component-icon servo-icon">⚙</div>
+                  <strong>Servo Motor</strong>
+                  <span>Actuator</span>
+                </button>
+
+                <button class="component-card" data-component="led">
+                  <div class="component-icon led-icon">✦</div>
+                  <strong>LED</strong>
+                  <span>Output</span>
+                </button>
+
+                <button class="component-card" data-component="ultrasonic">
+                  <div class="component-icon sensor-icon">◉</div>
+                  <strong>Ultrasonic</strong>
+                  <span>Distance</span>
+                </button>
+
+                <button class="component-card" data-component="temperature">
+                  <div class="component-icon sensor-icon">♨</div>
+                  <strong>Temperature</strong>
+                  <span>Sensor</span>
+                </button>
+
+              </div>
+
+              <button class="view-all" id="viewAllBtn">
+                View all components <span>→</span>
+              </button>
+            </div>
+
+            <div class="right-section selected-section">
+              <div class="section-heading">
+                <div>
+                  <h3>Selected Component</h3>
+                  <p id="selectedSubtitle">Nothing selected</p>
+                </div>
+                <span class="selection-dot"></span>
+              </div>
+
+              <div class="selected-component" id="selectedComponent">
+                <div class="empty-selection">
+                  <div>◈</div>
+                  <p>Select a component<br>to view its properties</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="right-section">
+              <div class="section-heading">
+                <div>
+                  <h3>Quick Actions</h3>
+                  <p>Build faster</p>
+                </div>
+              </div>
+
+              <div class="quick-actions">
+                <button id="clearBtn"><span>⌫</span> Clear Workspace</button>
+                <button id="saveBtn"><span>▣</span> Save Project</button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- BOTTOM CARDS -->
+        <div class="bottom-grid">
+
+          <div class="bottom-card idea-card">
+            <div class="bottom-card-header">
+              <div>
+                <p class="eyebrow">INVENTION STARTER</p>
+                <h3>What will you create?</h3>
+              </div>
+              <div class="idea-spark">✦</div>
+            </div>
+
+            <div class="idea-input">
+              <input id="ideaInput" placeholder="Describe your invention idea...">
+              <button id="ideaBtn">→</button>
+            </div>
+
+            <div class="idea-suggestions">
+              <button data-idea="A robot that avoids obstacles">🤖 Obstacle robot</button>
+              <button data-idea="A smart plant watering system">🌱 Smart watering</button>
+              <button data-idea="A water quality monitor">💧 Water monitor</button>
+            </div>
+          </div>
+
+          <div class="bottom-card activity-card">
+            <div class="bottom-card-header">
+              <div>
+                <p class="eyebrow">RECENT ACTIVITY</p>
+                <h3>Keep building</h3>
+              </div>
+              <button class="more-btn">•••</button>
+            </div>
+
+            <div class="activity-list" id="activityList">
+              <div class="activity-item">
+                <div class="activity-icon">⚡</div>
+                <div>
+                  <strong>Welcome to RoboOS</strong>
+                  <p>Start your first invention</p>
+                </div>
+                <span>Now</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <footer>
+          <p>RoboOS <span>•</span> Build beyond imagination.</p>
+          <p>3D Electronics Lab <span>•</span> v1.0 Prototype</p>
+        </footer>
+
+      </section>
+    </main>
+
+  </div>
+
+  <!-- COMPONENT MODAL -->
+  <div class="modal" id="componentModal">
+    <div class="modal-box">
+      <button class="modal-close" id="modalClose">×</button>
+      <p class="eyebrow">COMPONENT LIBRARY</p>
+      <h2>Choose your components</h2>
+      <p class="modal-subtitle">More components will be added as RoboOS grows.</p>
+
+      <div class="modal-grid">
+        <button class="modal-component" data-component="arduino">◈ <strong>Arduino Uno</strong><span>Controller</span></button>
+        <button class="modal-component" data-component="breadboard">▦ <strong>Breadboard</strong><span>Prototype</span></button>
+        <button class="modal-component" data-component="servo">⚙ <strong>Servo Motor</strong><span>Actuator</span></button>
+        <button class="modal-component" data-component="led">✦ <strong>LED</strong><span>Output</span></button>
+        <button class="modal-component" data-component="ultrasonic">◉ <strong>Ultrasonic Sensor</strong><span>Distance</span></button>
+        <button class="modal-component" data-component="temperature">♨ <strong>Temperature Sensor</strong><span>Sensor</span></button>
+        <button class="modal-component" data-component="resistor">▰ <strong>Resistor</strong><span>Passive</span></button>
+        <button class="modal-component" data-component="buzzer">♪ <strong>Buzzer</strong><span>Output</span></button>
+        <button class="modal-component" data-component="tilt">◇ <strong>Tilt Sensor</strong><span>Sensor</span></button>
+        <button class="modal-component" data-component="motor">⚙ <strong>DC Motor</strong><span>Actuator</span></button>
+        <button class="modal-component" data-component="battery">▥ <strong>Battery</strong><span>Power</span></button>
+        <button class="modal-component" data-component="lcd">▤ <strong>LCD Display</strong><span>Display</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CODE MODAL -->
+  <div class="modal" id="codeModal">
+    <div class="modal-box code-box">
+      <button class="modal-close" id="codeClose">×</button>
+      <p class="eyebrow">CODE LAB</p>
+      <h2>Program your invention</h2>
+      <p class="modal-subtitle">Write your own logic and run the simulation.</p>
+
+      <div class="code-editor">
+        <div class="code-toolbar">
+          <span>Arduino C++</span>
+          <button id="copyCode">Copy Code</button>
+        </div>
+        <textarea id="codeArea">void setup() {
+  // Your invention starts here
+}
+
+void loop() {
+  // Create your own logic
+}</textarea>
+      </div>
+
+      <button class="run-code-btn" id="runCode">▶ Run Program</button>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">
+    <span>✓</span>
+    <div>
+      <strong id="toastTitle">Success</strong>
+      <p id="toastMessage">Action completed.</p>
+    </div>
+  </div>
+
+  <!-- THREE.JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="script.js"></script>
+
+</body>
+  </html>
