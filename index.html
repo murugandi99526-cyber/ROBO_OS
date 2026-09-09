@@ -4,906 +4,586 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>RoboForge AI Lab</title>
+  <title>RoboForge AI Creation Lab</title>
 
   <link rel="stylesheet" href="style.css">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 
 <body>
 
-  <div class="background-grid"></div>
-  <div class="glow glow-one"></div>
-  <div class="glow glow-two"></div>
+  <div id="toastContainer"></div>
 
   <div class="app-shell">
 
-    <!-- SIDEBAR -->
-
-    <aside class="sidebar">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
 
       <div class="brand">
-        <div class="brand-icon">
+        <div class="brand-logo">
           <span>RF</span>
         </div>
 
         <div>
-          <h1>RoboForge</h1>
-          <p>AI CREATION LAB</p>
+          <h2>RoboForge</h2>
+          <p>Creation Lab</p>
         </div>
       </div>
 
-      <div class="profile-card">
-        <div class="avatar">G</div>
-
-        <div>
-          <strong>Inventor Mode</strong>
-          <small>Creative Engineer</small>
-        </div>
-
-        <div class="online-dot"></div>
-      </div>
+      <button class="new-project-btn" id="newProjectBtn">
+        <span>＋</span>
+        New Project
+      </button>
 
       <nav class="main-nav">
 
-        <p class="nav-title">WORKSPACE</p>
+        <p class="nav-label">WORKSPACE</p>
 
-        <button class="nav-item active" data-page="dashboard">
+        <button class="nav-item active" data-section="dashboard">
           <span class="nav-icon">⌂</span>
-          <span>Dashboard</span>
+          Dashboard
         </button>
 
-        <button class="nav-item" data-page="builder">
-          <span class="nav-icon">⬡</span>
-          <span>3D Builder</span>
+        <button class="nav-item" data-section="builder">
+          <span class="nav-icon">◈</span>
+          3D Circuit Builder
         </button>
 
-        <button class="nav-item" data-page="circuits">
-          <span class="nav-icon">⌘</span>
-          <span>Smart Circuits</span>
+        <button class="nav-item" data-section="simulation">
+          <span class="nav-icon">▶</span>
+          Simulation Center
         </button>
 
-        <button class="nav-item" data-page="simulator">
-          <span class="nav-icon">◉</span>
-          <span>Simulator</span>
-        </button>
-
-        <button class="nav-item" data-page="code">
+        <button class="nav-item" data-section="code">
           <span class="nav-icon">{ }</span>
-          <span>Code Studio</span>
+          Code Studio
         </button>
 
-        <p class="nav-title">TOOLS</p>
+        <p class="nav-label">DISCOVER</p>
 
-        <button class="nav-item" data-page="components">
+        <button class="nav-item" data-section="components">
           <span class="nav-icon">▦</span>
-          <span>Components</span>
+          Component Library
         </button>
 
-        <button class="nav-item" data-page="projects">
-          <span class="nav-icon">▤</span>
-          <span>My Projects</span>
+        <button class="nav-item" data-section="ideas">
+          <span class="nav-icon">✦</span>
+          Inventor AI
         </button>
 
-        <button class="nav-item" data-page="community">
+        <button class="nav-item" data-section="community">
           <span class="nav-icon">♧</span>
-          <span>Community</span>
+          Community Ideas
+        </button>
+
+        <p class="nav-label">PERSONAL</p>
+
+        <button class="nav-item" data-section="projects">
+          <span class="nav-icon">▤</span>
+          My Projects
+        </button>
+
+        <button class="nav-item" data-section="settings">
+          <span class="nav-icon">⚙</span>
+          Settings
         </button>
 
       </nav>
 
       <div class="sidebar-bottom">
 
-        <div class="upgrade-card">
-          <div class="upgrade-symbol">✦</div>
-          <h3>Unlock Inventor AI</h3>
-          <p>Generate circuits, code and project ideas faster.</p>
-          <button onclick="showToast('AI upgrade will be available soon')">
-            Explore AI
-          </button>
+        <div class="pro-card">
+          <div class="pro-glow"></div>
+          <span class="pro-icon">✦</span>
+          <h3>Build anything</h3>
+          <p>Turn your imagination into a working prototype.</p>
+          <button id="exploreBtn">Explore Lab →</button>
         </div>
 
-        <button class="settings-button" onclick="showToast('Settings panel coming soon')">
-          ⚙ Settings
-        </button>
+        <div class="user-profile">
+          <div class="avatar">G</div>
+          <div>
+            <strong>Inventor</strong>
+            <small>Creative Mode</small>
+          </div>
+          <span class="more-icon">•••</span>
+        </div>
 
       </div>
 
     </aside>
 
-    <!-- MAIN CONTENT -->
-
+    <!-- Main Content -->
     <main class="main-content">
 
-      <!-- TOPBAR -->
-
+      <!-- Topbar -->
       <header class="topbar">
 
-        <div class="mobile-brand">
-          <div class="brand-icon">
-            <span>RF</span>
-          </div>
-          <strong>RoboForge</strong>
+        <button class="mobile-menu" id="mobileMenuBtn">☰</button>
+
+        <div class="breadcrumb">
+          <span>Workspace</span>
+          <b>/</b>
+          <strong id="breadcrumbTitle">Dashboard</strong>
         </div>
 
-        <div class="search-box">
-          <span>⌕</span>
-          <input
-            type="text"
-            id="globalSearch"
-            placeholder="Search components, projects, sensors..."
-          >
-          <kbd>CTRL K</kbd>
-        </div>
+        <div class="topbar-actions">
 
-        <div class="top-actions">
-
-          <button class="icon-button" onclick="showToast('No new notifications')">
+          <button class="icon-button" id="notificationBtn">
             ♢
-            <span class="notification-badge">3</span>
+            <span class="notification-dot"></span>
           </button>
 
-          <button class="icon-button" onclick="toggleTheme()">
-            ◐
-          </button>
+          <button class="icon-button" id="themeBtn">☼</button>
 
-          <div class="top-user">
-            <div class="mini-avatar">G</div>
-            <span>Ganesh</span>
-            <span class="down-arrow">⌄</span>
-          </div>
+          <div class="top-avatar">G</div>
 
         </div>
 
       </header>
 
-      <!-- PAGE CONTAINER -->
+      <!-- Dashboard Section -->
+      <section class="page-section active-section" id="dashboardSection">
 
-      <section class="page-container">
+        <div class="hero-section">
 
-        <!-- DASHBOARD PAGE -->
+          <div class="hero-content">
 
-        <div class="page active-page" id="dashboard">
-
-          <div class="welcome-section">
-
-            <div>
-              <p class="eyebrow">
-                <span class="pulse-dot"></span>
-                SYSTEM ONLINE
-              </p>
-
-              <h2>Build something<br><span>extraordinary.</span></h2>
-
-              <p class="welcome-description">
-                Design intelligent machines, connect sensors,
-                write programs and watch your ideas come alive.
-              </p>
-
-              <div class="welcome-buttons">
-                <button class="primary-button" onclick="openBuilder()">
-                  <span>＋</span>
-                  New Creation
-                </button>
-
-                <button class="secondary-button" onclick="openSimulator()">
-                  <span>▶</span>
-                  Open Simulator
-                </button>
-              </div>
+            <div class="status-pill">
+              <span class="pulse-dot"></span>
+              AI CREATION ENGINE ONLINE
             </div>
 
-            <div class="hero-orb">
+            <h1>
+              Build the future.
+              <span>One idea at a time.</span>
+            </h1>
 
-              <div class="orb-ring ring-one"></div>
-              <div class="orb-ring ring-two"></div>
-              <div class="orb-ring ring-three"></div>
+            <p>
+              Design circuits, experiment with sensors, create robots,
+              and transform your imagination into interactive 3D prototypes.
+            </p>
 
-              <div class="orb-core">
-                <div class="core-eye"></div>
-                <div class="core-line"></div>
-                <span>AI</span>
-              </div>
+            <div class="hero-buttons">
+              <button class="primary-btn" id="heroStartBtn">
+                <span>＋</span>
+                Start Creating
+              </button>
 
-              <div class="floating-chip chip-one">ARDUINO</div>
-              <div class="floating-chip chip-two">SENSORS</div>
-              <div class="floating-chip chip-three">ROBOTICS</div>
-
+              <button class="secondary-btn" id="watchDemoBtn">
+                <span>▶</span>
+                Watch Demo
+              </button>
             </div>
 
-          </div>
-
-          <div class="stats-grid">
-
-            <div class="stat-card">
-              <div class="stat-icon purple">⌘</div>
+            <div class="hero-stats">
               <div>
-                <span>Active Projects</span>
+                <strong>24+</strong>
+                <span>Components</span>
+              </div>
+
+              <div>
                 <strong>12</strong>
-                <small class="positive">↑ 24% this month</small>
+                <span>Smart Sensors</span>
               </div>
-            </div>
 
-            <div class="stat-card">
-              <div class="stat-icon blue">◈</div>
               <div>
-                <span>Components Used</span>
-                <strong>48</strong>
-                <small class="positive">↑ 12 new parts</small>
-              </div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-icon cyan">◉</div>
-              <div>
-                <span>Simulations Run</span>
-                <strong>156</strong>
-                <small class="positive">↑ 38% this week</small>
-              </div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-icon orange">✦</div>
-              <div>
-                <span>AI Suggestions</span>
-                <strong>27</strong>
-                <small class="neutral">Ready to explore</small>
+                <strong>∞</strong>
+                <span>Ideas Possible</span>
               </div>
             </div>
 
           </div>
 
-          <div class="section-heading">
-            <div>
-              <h3>Continue creating</h3>
-              <p>Jump back into your latest inventions.</p>
-            </div>
+          <div class="hero-visual">
 
-            <button class="text-button" onclick="openProjects()">
-              View all projects →
-            </button>
-          </div>
+            <div class="orbit-ring ring-one"></div>
+            <div class="orbit-ring ring-two"></div>
+            <div class="orbit-ring ring-three"></div>
 
-          <div class="project-grid">
+            <div class="floating-chip chip-one">AI</div>
+            <div class="floating-chip chip-two">IoT</div>
+            <div class="floating-chip chip-three">3D</div>
 
-            <div class="project-card project-purple" onclick="openBuilder()">
-              <div class="project-card-top">
-                <div class="project-icon">♙</div>
-                <span class="project-status">IN PROGRESS</span>
+            <div class="robot-display">
+              <div class="robot-head">
+                <div class="robot-eye"></div>
+                <div class="robot-eye"></div>
               </div>
 
-              <h3>Smart Rescue Rover</h3>
-              <p>Autonomous navigation robot with obstacle detection.</p>
-
-              <div class="project-preview">
-                <div class="rover-preview">
-                  <div class="rover-body"></div>
-                  <div class="rover-wheel wheel-left"></div>
-                  <div class="rover-wheel wheel-right"></div>
-                  <div class="rover-sensor"></div>
-                </div>
-                <div class="preview-lines">
-                  <span></span>
-                  <span></span>
-                  <span></span>
+              <div class="robot-body">
+                <div class="robot-screen">
+                  <span>RF</span>
                 </div>
               </div>
 
-              <div class="project-footer">
-                <span>Edited 2 hours ago</span>
-                <span>65%</span>
-              </div>
+              <div class="robot-arm arm-left"></div>
+              <div class="robot-arm arm-right"></div>
 
-              <div class="progress-bar">
-                <div style="width:65%"></div>
-              </div>
-            </div>
-
-            <div class="project-card project-blue" onclick="openBuilder()">
-              <div class="project-card-top">
-                <div class="project-icon">♨</div>
-                <span class="project-status">SIMULATING</span>
-              </div>
-
-              <h3>Water Guardian</h3>
-              <p>Reservoir monitoring system using smart sensors.</p>
-
-              <div class="project-preview water-preview">
-                <div class="water-wave"></div>
-                <div class="water-tower">
-                  <div class="tower-top"></div>
-                  <div class="tower-pillar"></div>
-                  <div class="tower-pillar"></div>
-                </div>
-                <div class="sensor-signal"></div>
-              </div>
-
-              <div class="project-footer">
-                <span>Edited yesterday</span>
-                <span>82%</span>
-              </div>
-
-              <div class="progress-bar">
-                <div style="width:82%"></div>
-              </div>
-            </div>
-
-            <div class="project-card project-orange" onclick="openBuilder()">
-              <div class="project-card-top">
-                <div class="project-icon">⚙</div>
-                <span class="project-status">DRAFT</span>
-              </div>
-
-              <h3>Gesture Control Arm</h3>
-              <p>Control a robotic arm using hand movement sensors.</p>
-
-              <div class="project-preview arm-preview">
-                <div class="robot-arm">
-                  <div class="arm-base"></div>
-                  <div class="arm-segment"></div>
-                  <div class="arm-joint"></div>
-                  <div class="arm-claw"></div>
-                </div>
-              </div>
-
-              <div class="project-footer">
-                <span>Edited 3 days ago</span>
-                <span>31%</span>
-              </div>
-
-              <div class="progress-bar">
-                <div style="width:31%"></div>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="section-heading">
-            <div>
-              <h3>Explore components</h3>
-              <p>Everything you need to build your next idea.</p>
-            </div>
-
-            <button class="text-button" onclick="openComponents()">
-              Browse library →
-            </button>
-          </div>
-
-          <div class="component-grid">
-
-            <div class="component-card" draggable="true" data-component="Arduino Uno">
-              <div class="component-visual arduino-visual">
-                <div class="arduino-board">
-                  <div class="usb-port"></div>
-                  <div class="arduino-chip"></div>
-                  <div class="pin-row"></div>
-                </div>
-              </div>
-              <h4>Arduino Uno</h4>
-              <p>Microcontroller</p>
-              <span class="component-tag">CONTROL</span>
-            </div>
-
-            <div class="component-card" draggable="true" data-component="Ultrasonic Sensor">
-              <div class="component-visual sensor-visual">
-                <div class="ultrasonic">
-                  <div class="sensor-eye"></div>
-                  <div class="sensor-eye"></div>
-                </div>
-              </div>
-              <h4>Ultrasonic Sensor</h4>
-              <p>Distance detection</p>
-              <span class="component-tag blue-tag">SENSOR</span>
-            </div>
-
-            <div class="component-card" draggable="true" data-component="Servo Motor">
-              <div class="component-visual servo-visual">
-                <div class="servo">
-                  <div class="servo-head"></div>
-                  <div class="servo-body"></div>
-                  <div class="servo-wire"></div>
-                </div>
-              </div>
-              <h4>Servo Motor</h4>
-              <p>Motion control</p>
-              <span class="component-tag orange-tag">ACTUATOR</span>
-            </div>
-
-            <div class="component-card" draggable="true" data-component="Temperature Sensor">
-              <div class="component-visual temp-visual">
-                <div class="temp-sensor">
-                  <div class="temp-top"></div>
-                  <div class="temp-line"></div>
-                </div>
-              </div>
-              <h4>Temperature Sensor</h4>
-              <p>Environmental data</p>
-              <span class="component-tag cyan-tag">SENSOR</span>
+              <div class="robot-leg leg-left"></div>
+              <div class="robot-leg leg-right"></div>
             </div>
 
           </div>
 
         </div>
 
-        <!-- BUILDER PAGE -->
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">YOUR CREATIVE SPACE</p>
+            <h2>Welcome back, Inventor</h2>
+          </div>
 
-        <div class="page" id="builder">
+          <button class="text-btn" data-open-section="projects">
+            View all projects →
+          </button>
+        </div>
 
-          <div class="page-title-row">
-            <div>
-              <p class="eyebrow">CREATION WORKSPACE</p>
-              <h2>3D Circuit Builder</h2>
-              <p>Connect components and create your own intelligent machine.</p>
+        <div class="dashboard-grid">
+
+          <div class="quick-card featured-card" data-open-section="builder">
+            <div class="card-top">
+              <span class="card-icon purple-icon">◈</span>
+              <span class="card-arrow">↗</span>
             </div>
 
-            <div class="title-actions">
-              <button class="secondary-button" onclick="clearWorkspace()">Clear</button>
-              <button class="primary-button" onclick="saveProject()">Save Project</button>
+            <h3>3D Circuit Builder</h3>
+            <p>Connect components and watch your circuit come alive.</p>
+
+            <div class="mini-circuit">
+              <div class="mini-node"></div>
+              <div class="mini-wire"></div>
+              <div class="mini-node"></div>
+              <div class="mini-wire"></div>
+              <div class="mini-node"></div>
             </div>
           </div>
 
-          <div class="builder-layout">
-
-            <div class="builder-left">
-
-              <div class="builder-toolbar">
-                <button class="tool-button active" onclick="setTool(this, 'select')">↖ Select</button>
-                <button class="tool-button" onclick="setTool(this, 'wire')">⌁ Wire</button>
-                <button class="tool-button" onclick="setTool(this, 'move')">✥ Move</button>
-                <button class="tool-button" onclick="resetCamera()">◎ Reset View</button>
-              </div>
-
-              <div class="three-workspace" id="threeWorkspace">
-
-                <div class="workspace-label">
-                  <span class="pulse-dot"></span>
-                  LIVE 3D WORKSPACE
-                </div>
-
-                <div class="workspace-help">
-                  Drag components from the library into this workspace
-                </div>
-
-                <div class="axis-label axis-x">X</div>
-                <div class="axis-label axis-y">Y</div>
-                <div class="axis-label axis-z">Z</div>
-
-                <div class="workspace-empty" id="workspaceEmpty">
-                  <div class="empty-icon">＋</div>
-                  <h3>Your workspace is empty</h3>
-                  <p>Drag components here to start building.</p>
-                </div>
-
-                <div class="placed-components" id="placedComponents"></div>
-
-                <div class="connection-line line-one"></div>
-                <div class="connection-line line-two"></div>
-
-                <div class="simulation-overlay" id="simulationOverlay">
-                  <div class="simulation-spinner"></div>
-                  <strong>Running simulation...</strong>
-                  <span>Analyzing connections and sensor data</span>
-                </div>
-
-              </div>
-
-              <div class="builder-bottom">
-
-                <div class="mini-panel">
-                  <div class="mini-panel-title">
-                    <span>⌘</span>
-                    Connection Map
-                  </div>
-
-                  <div class="connection-item">
-                    <span class="connection-dot purple-dot"></span>
-                    <span>Arduino Uno</span>
-                    <b>→</b>
-                    <span>Servo Motor</span>
-                    <em>Connected</em>
-                  </div>
-
-                  <div class="connection-item">
-                    <span class="connection-dot blue-dot"></span>
-                    <span>Ultrasonic</span>
-                    <b>→</b>
-                    <span>Arduino Uno</span>
-                    <em>Connected</em>
-                  </div>
-                </div>
-
-                <div class="mini-panel">
-                  <div class="mini-panel-title">
-                    <span>◉</span>
-                    Live System Status
-                  </div>
-
-                  <div class="system-status">
-                    <div>
-                      <span>Power</span>
-                      <strong class="status-green">● Stable</strong>
-                    </div>
-
-                    <div>
-                      <span>Signal</span>
-                      <strong class="status-green">● Strong</strong>
-                    </div>
-
-                    <div>
-                      <span>Temperature</span>
-                      <strong>28.4°C</strong>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
+          <div class="quick-card" data-open-section="simulation">
+            <div class="card-top">
+              <span class="card-icon blue-icon">▶</span>
+              <span class="card-arrow">↗</span>
             </div>
 
-            <aside class="builder-right">
+            <h3>Simulation Center</h3>
+            <p>Test your invention before building it in real life.</p>
 
-              <div class="panel-card">
+            <div class="simulation-preview">
+              <span class="sim-line"></span>
+              <span class="sim-line"></span>
+              <span class="sim-line"></span>
+              <div class="sim-wave"></div>
+            </div>
+          </div>
 
-                <div class="panel-heading">
-                  <div>
-                    <h3>Component Library</h3>
-                    <p>Drag into workspace</p>
-                  </div>
-                  <button onclick="openComponents()">＋</button>
-                </div>
+          <div class="quick-card" data-open-section="ideas">
+            <div class="card-top">
+              <span class="card-icon orange-icon">✦</span>
+              <span class="card-arrow">↗</span>
+            </div>
 
-                <div class="library-search">
-                  <span>⌕</span>
-                  <input id="componentSearch" type="text" placeholder="Search components">
-                </div>
+            <h3>Inventor AI</h3>
+            <p>Generate project ideas and receive intelligent guidance.</p>
 
-                <div class="library-tabs">
-                  <button class="library-tab active">All</button>
-                  <button class="library-tab">Sensors</button>
-                  <button class="library-tab">Control</button>
-                </div>
-
-                <div class="library-list">
-
-                  <div class="library-item" draggable="true" data-component="Arduino Uno">
-                    <div class="library-item-icon purple-bg">▣</div>
-                    <div>
-                      <strong>Arduino Uno</strong>
-                      <small>Microcontroller</small>
-                    </div>
-                    <span>＋</span>
-                  </div>
-
-                  <div class="library-item" draggable="true" data-component="Ultrasonic Sensor">
-                    <div class="library-item-icon blue-bg">◉</div>
-                    <div>
-                      <strong>Ultrasonic Sensor</strong>
-                      <small>Distance sensor</small>
-                    </div>
-                    <span>＋</span>
-                  </div>
-
-                  <div class="library-item" draggable="true" data-component="Servo Motor">
-                    <div class="library-item-icon orange-bg">⚙</div>
-                    <div>
-                      <strong>Servo Motor</strong>
-                      <small>Motion actuator</small>
-                    </div>
-                    <span>＋</span>
-                  </div>
-
-                  <div class="library-item" draggable="true" data-component="LED Module">
-                    <div class="library-item-icon cyan-bg">✦</div>
-                    <div>
-                      <strong>LED Module</strong>
-                      <small>Visual output</small>
-                    </div>
-                    <span>＋</span>
-                  </div>
-
-                  <div class="library-item" draggable="true" data-component="Temperature Sensor">
-                    <div class="library-item-icon green-bg">♨</div>
-                    <div>
-                      <strong>Temperature Sensor</strong>
-                      <small>Environment sensor</small>
-                    </div>
-                    <span>＋</span>
-                  </div>
-
-                </div>
-
+            <div class="ai-preview">
+              <span>AI</span>
+              <div>
+                <i></i>
+                <i></i>
+                <i></i>
               </div>
-
-              <div class="panel-card ai-panel">
-
-                <div class="ai-heading">
-                  <div class="ai-icon">✦</div>
-                  <div>
-                    <h3>Inventor AI</h3>
-                    <p>Your intelligent co-builder</p>
-                  </div>
-                  <span class="ai-online">ONLINE</span>
-                </div>
-
-                <div class="ai-message">
-                  <strong>Try asking me:</strong>
-                  <p>“Create a robot that avoids obstacles.”</p>
-                </div>
-
-                <div class="ai-suggestions">
-                  <button onclick="useSuggestion('Create an obstacle avoiding robot')">
-                    Obstacle avoiding robot
-                  </button>
-                  <button onclick="useSuggestion('Monitor water quality')">
-                    Water quality monitor
-                  </button>
-                  <button onclick="useSuggestion('Build a smart home system')">
-                    Smart home system
-                  </button>
-                </div>
-
-                <div class="ai-input">
-                  <input id="aiInput" placeholder="Describe your invention...">
-                  <button onclick="askAI()">➤</button>
-                </div>
-
-              </div>
-
-            </aside>
-
+            </div>
           </div>
 
         </div>
 
-        <!-- CIRCUITS PAGE -->
-
-        <div class="page" id="circuits">
-
-          <div class="page-title-row">
-            <div>
-              <p class="eyebrow">ELECTRONICS DESIGN</p>
-              <h2>Smart Circuits</h2>
-              <p>Design and inspect your electronic connections.</p>
-            </div>
-
-            <button class="primary-button" onclick="openBuilder()">＋ New Circuit</button>
+        <div class="section-heading recent-heading">
+          <div>
+            <p class="eyebrow">CONTINUE BUILDING</p>
+            <h2>Recent Projects</h2>
           </div>
 
-          <div class="circuit-dashboard">
+          <button class="text-btn" data-open-section="projects">
+            Manage projects →
+          </button>
+        </div>
 
-            <div class="circuit-card large-circuit-card">
+        <div class="project-grid" id="dashboardProjects"></div>
 
-              <div class="circuit-card-heading">
+      </section>
+
+      <!-- Builder Section -->
+      <section class="page-section" id="builderSection">
+
+        <div class="page-title-row">
+          <div>
+            <p class="eyebrow">INTERACTIVE WORKSPACE</p>
+            <h1>3D Circuit Builder</h1>
+            <p class="page-description">
+              Add components, move them around, and create your own virtual invention.
+            </p>
+          </div>
+
+          <div class="page-actions">
+            <button class="secondary-btn" id="clearWorkspaceBtn">Clear</button>
+            <button class="primary-btn" id="saveProjectBtn">Save Project</button>
+          </div>
+        </div>
+
+        <div class="builder-layout">
+
+          <aside class="component-panel">
+
+            <div class="panel-heading">
+              <div>
+                <h3>Components</h3>
+                <span id="componentCount">24 available</span>
+              </div>
+              <button class="small-icon-btn" id="componentFilterBtn">☷</button>
+            </div>
+
+            <div class="search-box">
+              <span>⌕</span>
+              <input type="text" id="componentSearch" placeholder="Search components...">
+            </div>
+
+            <div class="component-categories">
+              <button class="category-btn active" data-category="all">All</button>
+              <button class="category-btn" data-category="board">Boards</button>
+              <button class="category-btn" data-category="sensor">Sensors</button>
+              <button class="category-btn" data-category="output">Output</button>
+            </div>
+
+            <div class="component-list" id="componentList"></div>
+
+          </aside>
+
+          <div class="builder-center">
+
+            <div class="workspace-toolbar">
+
+              <div class="toolbar-left">
+                <span class="live-dot"></span>
+                <strong>Live Workspace</strong>
+                <span class="workspace-status" id="workspaceStatus">Ready</span>
+              </div>
+
+              <div class="toolbar-right">
+                <button class="tool-btn active" id="selectToolBtn">↖</button>
+                <button class="tool-btn" id="wireToolBtn">⌁</button>
+                <button class="tool-btn" id="rotateToolBtn">⟳</button>
+                <button class="tool-btn" id="deleteToolBtn">⌫</button>
+                <button class="tool-btn" id="resetCameraBtn">◎</button>
+              </div>
+
+            </div>
+
+            <div class="three-workspace" id="threeWorkspace">
+
+              <div class="workspace-empty" id="workspaceEmpty">
+                <div class="empty-orb">＋</div>
+                <h3>Your workspace is empty</h3>
+                <p>Select a component from the library to begin.</p>
+              </div>
+
+              <div class="workspace-overlay">
+                <div class="coordinate-label">X: <span id="coordX">0</span></div>
+                <div class="coordinate-label">Y: <span id="coordY">0</span></div>
+                <div class="coordinate-label">Z: <span id="coordZ">0</span></div>
+              </div>
+
+              <div class="zoom-controls">
+                <button id="zoomInBtn">＋</button>
+                <button id="zoomOutBtn">−</button>
+              </div>
+
+              <div class="workspace-help">
+                Drag to rotate • Scroll to zoom • Click components to select
+              </div>
+
+            </div>
+
+            <div class="builder-bottom-bar">
+
+              <div class="connection-info">
+                <span class="connection-icon">⌁</span>
                 <div>
-                  <h3>Obstacle Avoidance Circuit</h3>
-                  <p>Arduino Uno + Ultrasonic + Servo Motor</p>
+                  <strong id="connectionCount">0 connections</strong>
+                  <small>Connect components to create a circuit</small>
                 </div>
-
-                <span class="status-pill green-pill">● ACTIVE</span>
               </div>
 
-              <div class="circuit-board">
+              <button class="simulate-btn" id="simulateBtn">
+                <span>▶</span>
+                Run Simulation
+              </button>
 
-                <div class="circuit-node node-arduino">
-                  <div class="node-icon">▣</div>
-                  <strong>Arduino Uno</strong>
-                  <small>Controller</small>
-                  <span class="node-port port-right"></span>
-                </div>
-
-                <div class="circuit-node node-ultrasonic">
-                  <div class="node-icon">◉</div>
-                  <strong>Ultrasonic</strong>
-                  <small>Input Sensor</small>
-                  <span class="node-port port-right"></span>
-                </div>
-
-                <div class="circuit-node node-servo">
-                  <div class="node-icon">⚙</div>
-                  <strong>Servo Motor</strong>
-                  <small>Output</small>
-                  <span class="node-port port-left"></span>
-                </div>
-
-                <svg class="circuit-svg" viewBox="0 0 700 330">
-                  <path d="M 230 165 C 300 165, 330 165, 390 165" />
-                  <path d="M 230 95 C 300 95, 350 95, 390 95 L 390 165" />
-                  <path d="M 470 165 C 530 165, 540 165, 590 165" />
-                </svg>
-
-              </div>
-
-              <div class="circuit-footer">
-                <span>8 connections</span>
-                <span>5V power</span>
-                <span>Digital pins: 3</span>
-                <button onclick="openBuilder()">Edit circuit →</button>
-              </div>
-
-            </div>
-
-            <div class="circuit-side-card">
-              <div class="small-card-icon purple-bg">⌘</div>
-              <h3>Connection Health</h3>
-              <div class="health-score">98<span>%</span></div>
-              <p>All connections are working correctly.</p>
-              <div class="health-bar"><div></div></div>
-            </div>
-
-            <div class="circuit-side-card">
-              <div class="small-card-icon blue-bg">◉</div>
-              <h3>Signal Activity</h3>
-              <div class="signal-chart">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <p>Sensor data is updating live.</p>
             </div>
 
           </div>
+
+          <aside class="inspector-panel">
+
+            <div class="panel-heading">
+              <div>
+                <h3>Inspector</h3>
+                <span>Selected component</span>
+              </div>
+              <button class="small-icon-btn" id="closeInspectorBtn">×</button>
+            </div>
+
+            <div class="inspector-empty" id="inspectorEmpty">
+              <div class="inspector-icon">◈</div>
+              <h3>No component selected</h3>
+              <p>Click a component in the workspace to inspect it.</p>
+            </div>
+
+            <div class="inspector-content hidden" id="inspectorContent">
+
+              <div class="selected-component-preview" id="selectedPreview">
+                <span>LED</span>
+              </div>
+
+              <h3 id="selectedName">LED</h3>
+              <p class="selected-type" id="selectedType">Output Component</p>
+
+              <div class="inspector-divider"></div>
+
+              <label>Component Name</label>
+              <input type="text" id="componentNameInput">
+
+              <label>Position X</label>
+              <input type="number" id="positionXInput">
+
+              <label>Position Y</label>
+              <input type="number" id="positionYInput">
+
+              <label>Position Z</label>
+              <input type="number" id="positionZInput">
+
+              <button class="danger-btn" id="removeSelectedBtn">
+                Remove Component
+              </button>
+
+            </div>
+
+          </aside>
 
         </div>
 
-        <!-- SIMULATOR PAGE -->
+      </section>
 
-        <div class="page" id="simulator">
+      <!-- Simulation Section -->
+      <section class="page-section" id="simulationSection">
 
-          <div class="page-title-row">
-            <div>
-              <p class="eyebrow">VIRTUAL HARDWARE</p>
-              <h2>Simulation Center</h2>
-              <p>Test your invention before building it physically.</p>
-            </div>
-
-            <div class="title-actions">
-              <button class="secondary-button" onclick="resetSimulation()">Reset</button>
-              <button class="primary-button" onclick="runSimulation()">▶ Run Simulation</button>
-            </div>
+        <div class="page-title-row">
+          <div>
+            <p class="eyebrow">TEST YOUR INVENTION</p>
+            <h1>Simulation Center</h1>
+            <p class="page-description">
+              Observe sensor values and component behavior in real time.
+            </p>
           </div>
 
-          <div class="simulator-layout">
+          <button class="primary-btn" id="simulationStartBtn">
+            ▶ Start Simulation
+          </button>
+        </div>
 
-            <div class="simulation-screen">
+        <div class="simulation-dashboard">
 
-              <div class="simulation-header">
-                <span class="simulation-live">
+          <div class="simulation-main-card">
+
+            <div class="simulation-card-header">
+              <div>
+                <span class="status-pill small-status">
                   <span class="pulse-dot"></span>
-                  LIVE SIMULATION
+                  SIMULATOR READY
                 </span>
-
-                <span>FPS: 60</span>
-                <span>TIME: 00:24:08</span>
+                <h2>Live Circuit Monitor</h2>
               </div>
 
-              <div class="simulation-scene">
+              <div class="simulation-clock" id="simulationClock">00:00</div>
+            </div>
 
-                <div class="scene-grid"></div>
+            <div class="monitor-screen">
 
-                <div class="simulated-rover">
-                  <div class="sim-rover-top">
-                    <div class="sim-rover-sensor"></div>
-                  </div>
-                  <div class="sim-rover-body">
-                    <div class="sim-rover-light"></div>
-                  </div>
-                  <div class="sim-wheel sim-wheel-one"></div>
-                  <div class="sim-wheel sim-wheel-two"></div>
-                  <div class="sim-wheel sim-wheel-three"></div>
-                  <div class="sim-wheel sim-wheel-four"></div>
+              <div class="monitor-grid"></div>
+
+              <div class="monitor-robot">
+                <div class="monitor-robot-head">
+                  <span></span>
+                  <span></span>
                 </div>
-
-                <div class="obstacle obstacle-one"></div>
-                <div class="obstacle obstacle-two"></div>
-
-                <div class="distance-line"></div>
-                <div class="distance-text">42 cm</div>
-
+                <div class="monitor-robot-body">
+                  <b>RF</b>
+                </div>
               </div>
 
-              <div class="simulation-controls">
-                <button onclick="resetSimulation()">↺</button>
-                <button class="play-button" onclick="runSimulation()">▶</button>
-                <button onclick="showToast('Simulation paused')">Ⅱ</button>
-                <div class="simulation-progress">
-                  <div></div>
-                </div>
-                <span>00:24 / 01:00</span>
+              <div class="monitor-message" id="monitorMessage">
+                Press start to begin simulation
               </div>
 
             </div>
 
-            <div class="simulation-info">
+            <div class="simulation-controls">
+              <button class="control-btn" id="pauseSimulationBtn">Ⅱ</button>
+              <button class="control-btn reset-control" id="resetSimulationBtn">↻</button>
+              <div class="simulation-progress">
+                <span id="simulationProgress"></span>
+              </div>
+              <span id="simulationState">Stopped</span>
+            </div>
 
-              <div class="panel-card">
-                <div class="panel-heading">
-                  <div>
-                    <h3>Sensor Monitor</h3>
-                    <p>Live virtual readings</p>
-                  </div>
-                  <span class="status-pill green-pill">LIVE</span>
+          </div>
+
+          <div class="sensor-card">
+
+            <div class="simulation-card-header">
+              <div>
+                <span class="eyebrow">LIVE DATA</span>
+                <h2>Sensor Values</h2>
+              </div>
+              <span class="live-dot"></span>
+            </div>
+
+            <div class="sensor-value-list">
+
+              <div class="sensor-value-row">
+                <div class="sensor-value-icon purple-icon">◉</div>
+                <div class="sensor-value-name">
+                  <strong>Distance Sensor</strong>
+                  <small>Ultrasonic HC-SR04</small>
                 </div>
-
-                <div class="sensor-reading">
-                  <div class="reading-icon blue-bg">◉</div>
-                  <div class="reading-info">
-                    <span>Ultrasonic Distance</span>
-                    <strong id="distanceReading">42.0 cm</strong>
-                  </div>
-                  <div class="reading-bar">
-                    <div style="width:42%"></div>
-                  </div>
-                </div>
-
-                <div class="sensor-reading">
-                  <div class="reading-icon orange-bg">♨</div>
-                  <div class="reading-info">
-                    <span>Temperature</span>
-                    <strong>28.4 °C</strong>
-                  </div>
-                  <div class="reading-bar orange-bar">
-                    <div style="width:68%"></div>
-                  </div>
-                </div>
-
-                <div class="sensor-reading">
-                  <div class="reading-icon purple-bg">⌁</div>
-                  <div class="reading-info">
-                    <span>Servo Position</span>
-                    <strong id="servoReading">90°</strong>
-                  </div>
-                  <div class="reading-bar purple-bar">
-                    <div style="width:50%"></div>
-                  </div>
-                </div>
-
+                <strong class="sensor-number" id="distanceValue">-- cm</strong>
               </div>
 
-              <div class="panel-card">
-                <div class="panel-heading">
-                  <div>
-                    <h3>Simulation Events</h3>
-                    <p>System activity</p>
-                  </div>
+              <div class="sensor-value-row">
+                <div class="sensor-value-icon blue-icon">♨</div>
+                <div class="sensor-value-name">
+                  <strong>Temperature</strong>
+                  <small>Temperature Sensor</small>
                 </div>
+                <strong class="sensor-number" id="temperatureValue">-- °C</strong>
+              </div>
 
-                <div class="event-list">
-                  <div class="event-item">
-                    <span class="event-dot green-event"></span>
-                    <div>
-                      <strong>System initialized</strong>
-                      <small>Just now</small>
-                    </div>
-                  </div>
-
-                  <div class="event-item">
-                    <span class="event-dot blue-event"></span>
-                    <div>
-                      <strong>Distance sensor updated</strong>
-                      <small>2 seconds ago</small>
-                    </div>
-                  </div>
-
-                  <div class="event-item">
-                    <span class="event-dot orange-event"></span>
-                    <div>
-                      <strong>Servo position changed</strong>
-                      <small>5 seconds ago</small>
-                    </div>
-                  </div>
+              <div class="sensor-value-row">
+                <div class="sensor-value-icon orange-icon">☀</div>
+                <div class="sensor-value-name">
+                  <strong>Light Level</strong>
+                  <small>Photoresistor</small>
                 </div>
+                <strong class="sensor-number" id="lightValue">-- %</strong>
+              </div>
+
+              <div class="sensor-value-row">
+                <div class="sensor-value-icon green-icon">≈</div>
+                <div class="sensor-value-name">
+                  <strong>Humidity</strong>
+                  <small>Humidity Sensor</small>
+                </div>
+                <strong class="sensor-number" id="humidityValue">-- %</strong>
               </div>
 
             </div>
@@ -912,423 +592,242 @@
 
         </div>
 
-        <!-- CODE PAGE -->
+      </section>
 
-        <div class="page" id="code">
+      <!-- Code Section -->
+      <section class="page-section" id="codeSection">
 
-          <div class="page-title-row">
-            <div>
-              <p class="eyebrow">PROGRAMMING STUDIO</p>
-              <h2>Code Studio</h2>
-              <p>Write the intelligence behind your machine.</p>
-            </div>
-
-            <div class="title-actions">
-              <button class="secondary-button" onclick="formatCode()">Format</button>
-              <button class="primary-button" onclick="runCode()">▶ Run Code</button>
-            </div>
+        <div class="page-title-row">
+          <div>
+            <p class="eyebrow">PROGRAM YOUR INVENTION</p>
+            <h1>Code Studio</h1>
+            <p class="page-description">
+              Write and preview Arduino-style code for your virtual circuit.
+            </p>
           </div>
 
-          <div class="code-layout">
+          <div class="page-actions">
+            <button class="secondary-btn" id="formatCodeBtn">Format Code</button>
+            <button class="primary-btn" id="runCodeBtn">▶ Run Code</button>
+          </div>
+        </div>
 
-            <div class="code-editor-card">
+        <div class="code-studio">
 
-              <div class="editor-topbar">
-                <div class="file-tab active">
-                  <span>◉</span>
-                  main.ino
-                </div>
+          <div class="code-editor-card">
 
-                <div class="editor-actions">
-                  <button onclick="showToast('Code copied')">Copy</button>
-                  <button onclick="downloadCode()">Export</button>
-                </div>
+            <div class="editor-topbar">
+              <div class="editor-tabs">
+                <button class="editor-tab active">main.ino</button>
+                <button class="editor-tab">config.h</button>
               </div>
 
-              <div class="editor-body">
-                <div class="line-numbers" id="lineNumbers"></div>
+              <span class="editor-language">C++ / Arduino</span>
+            </div>
 
-                <textarea id="codeEditor" spellcheck="false">/*
-  RoboForge Smart Rover
-  Generated by Inventor AI
-*/
-
-#include <Servo.h>
-
-Servo steeringServo;
-
-const int trigPin = 7;
-const int echoPin = 6;
-const int servoPin = 9;
-
-long duration;
-int distance;
+            <div class="code-editor">
+              <div class="line-numbers" id="lineNumbers"></div>
+              <textarea id="codeEditor" spellcheck="false">int ledPin = 13;
+int sensorPin = A0;
 
 void setup() {
+  pinMode(ledPin, OUTPUT);
   Serial.begin(9600);
-
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT);
-
-  steeringServo.attach(servoPin);
-  steeringServo.write(90);
-
-  Serial.println("RoboForge system online");
 }
 
 void loop() {
-  distance = readDistance();
+  int sensorValue = analogRead(sensorPin);
 
-  Serial.print("Distance: ");
-  Serial.println(distance);
-
-  if (distance < 20) {
-    steeringServo.write(150);
-    delay(500);
+  if (sensorValue > 500) {
+    digitalWrite(ledPin, HIGH);
   } else {
-    steeringServo.write(90);
+    digitalWrite(ledPin, LOW);
   }
 
+  Serial.println(sensorValue);
   delay(100);
-}
-
-int readDistance() {
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-
-  duration = pulseIn(echoPin, HIGH);
-
-  return duration * 0.034 / 2;
 }</textarea>
-              </div>
-
-              <div class="editor-statusbar">
-                <span>● Arduino C++</span>
-                <span>UTF-8</span>
-                <span>Ln 1, Col 1</span>
-              </div>
-
             </div>
 
-            <div class="code-side">
+            <div class="editor-footer">
+              <span><span class="green-dot"></span> Ready</span>
+              <span>Arduino C++</span>
+              <span id="codeLineCount">18 lines</span>
+            </div>
 
-              <div class="panel-card">
-                <div class="panel-heading">
-                  <div>
-                    <h3>Code Intelligence</h3>
-                    <p>AI programming assistant</p>
-                  </div>
-                  <div class="ai-icon small-ai">✦</div>
-                </div>
+          </div>
 
-                <div class="code-ai-message">
-                  <strong>Your code looks good.</strong>
-                  <p>No major errors detected. The ultrasonic sensor is correctly connected to the control logic.</p>
-                </div>
+          <div class="code-output-card">
 
-                <button class="full-button" onclick="showToast('AI code explanation generated')">
-                  Explain this code
-                </button>
+            <div class="output-header">
+              <h3>Console Output</h3>
+              <button id="clearConsoleBtn">Clear</button>
+            </div>
 
-                <button class="full-button secondary-full" onclick="showToast('Optimization suggestions generated')">
-                  Optimize code
-                </button>
-              </div>
-
-              <div class="panel-card">
-                <div class="panel-heading">
-                  <div>
-                    <h3>Connected Hardware</h3>
-                    <p>Detected components</p>
-                  </div>
-                </div>
-
-                <div class="hardware-list">
-                  <div class="hardware-item">
-                    <span class="hardware-icon purple-bg">▣</span>
-                    <div>
-                      <strong>Arduino Uno</strong>
-                      <small>USB Connected</small>
-                    </div>
-                    <span class="status-green">●</span>
-                  </div>
-
-                  <div class="hardware-item">
-                    <span class="hardware-icon blue-bg">◉</span>
-                    <div>
-                      <strong>Ultrasonic Sensor</strong>
-                      <small>Digital pins 6, 7</small>
-                    </div>
-                    <span class="status-green">●</span>
-                  </div>
-
-                  <div class="hardware-item">
-                    <span class="hardware-icon orange-bg">⚙</span>
-                    <div>
-                      <strong>Servo Motor</strong>
-                      <small>PWM pin 9</small>
-                    </div>
-                    <span class="status-green">●</span>
-                  </div>
-                </div>
-              </div>
-
+            <div class="console-output" id="consoleOutput">
+              <p><span class="console-time">[00:00]</span> RoboForge Code Studio initialized.</p>
+              <p><span class="console-time">[00:00]</span> Waiting for code execution...</p>
             </div>
 
           </div>
 
         </div>
 
-        <!-- COMPONENTS PAGE -->
+      </section>
 
-        <div class="page" id="components">
+      <!-- Components Section -->
+      <section class="page-section" id="componentsSection">
 
-          <div class="page-title-row">
-            <div>
-              <p class="eyebrow">HARDWARE LIBRARY</p>
-              <h2>Component Universe</h2>
-              <p>Explore sensors, controllers, motors and modules.</p>
-            </div>
-
-            <button class="primary-button" onclick="showToast('Custom component upload coming soon')">
-              ＋ Add Component
-            </button>
+        <div class="page-title-row">
+          <div>
+            <p class="eyebrow">HARDWARE COLLECTION</p>
+            <h1>Component Library</h1>
+            <p class="page-description">
+              Explore boards, sensors, motors, displays, and electronic modules.
+            </p>
           </div>
 
-          <div class="component-filter-bar">
-            <div class="large-search">
-              <span>⌕</span>
-              <input id="largeComponentSearch" placeholder="Search 150+ components...">
-            </div>
+          <div class="search-box large-search">
+            <span>⌕</span>
+            <input type="text" id="librarySearch" placeholder="Search hardware...">
+          </div>
+        </div>
 
-            <button class="filter-button active">All Components</button>
-            <button class="filter-button">Sensors</button>
-            <button class="filter-button">Motors</button>
-            <button class="filter-button">Controllers</button>
+        <div class="library-filter-row">
+          <button class="category-btn active" data-library-category="all">All Components</button>
+          <button class="category-btn" data-library-category="board">Boards</button>
+          <button class="category-btn" data-library-category="sensor">Sensors</button>
+          <button class="category-btn" data-library-category="output">Motors & Output</button>
+          <button class="category-btn" data-library-category="power">Power</button>
+        </div>
+
+        <div class="library-grid" id="libraryGrid"></div>
+
+      </section>
+
+      <!-- Ideas Section -->
+      <section class="page-section" id="ideasSection">
+
+        <div class="ai-hero-card">
+
+          <div class="ai-hero-content">
+            <span class="status-pill">
+              <span class="pulse-dot"></span>
+              INVENTOR AI
+            </span>
+
+            <h1>What will you invent today?</h1>
+
+            <p>
+              Describe a problem, and RoboForge AI will help you turn it
+              into a practical robotics or electronics project.
+            </p>
+
+            <div class="ai-input-row">
+              <input type="text" id="aiIdeaInput" placeholder="Example: Build a robot that detects water leakage...">
+              <button class="primary-btn" id="generateIdeaBtn">Generate Idea ✦</button>
+            </div>
           </div>
 
-          <div class="universe-grid">
-
-            <div class="universe-card">
-              <div class="universe-icon purple-bg">▣</div>
-              <h3>Arduino Uno</h3>
-              <p>Microcontroller board</p>
-              <div class="universe-bottom">
-                <span>CONTROL</span>
-                <button onclick="addComponent('Arduino Uno')">＋ Add</button>
-              </div>
-            </div>
-
-            <div class="universe-card">
-              <div class="universe-icon blue-bg">◉</div>
-              <h3>Ultrasonic Sensor</h3>
-              <p>Distance measurement</p>
-              <div class="universe-bottom">
-                <span>SENSOR</span>
-                <button onclick="addComponent('Ultrasonic Sensor')">＋ Add</button>
-              </div>
-            </div>
-
-            <div class="universe-card">
-              <div class="universe-icon orange-bg">⚙</div>
-              <h3>Servo Motor</h3>
-              <p>Precise angular motion</p>
-              <div class="universe-bottom">
-                <span>ACTUATOR</span>
-                <button onclick="addComponent('Servo Motor')">＋ Add</button>
-              </div>
-            </div>
-
-            <div class="universe-card">
-              <div class="universe-icon cyan-bg">♨</div>
-              <h3>Temperature Sensor</h3>
-              <p>Temperature measurement</p>
-              <div class="universe-bottom">
-                <span>SENSOR</span>
-                <button onclick="addComponent('Temperature Sensor')">＋ Add</button>
-              </div>
-            </div>
-
-            <div class="universe-card">
-              <div class="universe-icon green-bg">✦</div>
-              <h3>LED Module</h3>
-              <p>Visual output indicator</p>
-              <div class="universe-bottom">
-                <span>OUTPUT</span>
-                <button onclick="addComponent('LED Module')">＋ Add</button>
-              </div>
-            </div>
-
-            <div class="universe-card">
-              <div class="universe-icon pink-bg">⌁</div>
-              <h3>Gas Sensor</h3>
-              <p>Air quality detection</p>
-              <div class="universe-bottom">
-                <span>SENSOR</span>
-                <button onclick="addComponent('Gas Sensor')">＋ Add</button>
-              </div>
-            </div>
-
+          <div class="ai-orb">
+            <div class="ai-orb-inner">✦</div>
           </div>
 
         </div>
 
-        <!-- PROJECTS PAGE -->
-
-        <div class="page" id="projects">
-
-          <div class="page-title-row">
-            <div>
-              <p class="eyebrow">YOUR INVENTIONS</p>
-              <h2>My Projects</h2>
-              <p>Every idea begins here.</p>
-            </div>
-
-            <button class="primary-button" onclick="openBuilder()">＋ New Project</button>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">SUGGESTED PROJECTS</p>
+            <h2>Ideas to explore</h2>
           </div>
-
-          <div class="projects-toolbar">
-            <div class="large-search">
-              <span>⌕</span>
-              <input placeholder="Search your projects...">
-            </div>
-
-            <select>
-              <option>Recently Updated</option>
-              <option>Recently Created</option>
-              <option>Alphabetical</option>
-            </select>
-          </div>
-
-          <div class="all-projects-grid">
-
-            <div class="all-project-card">
-              <div class="all-project-visual purple-visual">
-                <div class="visual-robot"></div>
-              </div>
-              <div class="all-project-content">
-                <span class="status-pill purple-pill">IN PROGRESS</span>
-                <h3>Smart Rescue Rover</h3>
-                <p>Autonomous robot with obstacle detection.</p>
-                <div class="all-project-meta">
-                  <span>12 components</span>
-                  <span>65% complete</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="all-project-card">
-              <div class="all-project-visual blue-visual">
-                <div class="visual-water"></div>
-              </div>
-              <div class="all-project-content">
-                <span class="status-pill green-pill">SIMULATING</span>
-                <h3>Water Guardian</h3>
-                <p>Smart reservoir monitoring system.</p>
-                <div class="all-project-meta">
-                  <span>9 components</span>
-                  <span>82% complete</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="all-project-card">
-              <div class="all-project-visual orange-visual">
-                <div class="visual-arm"></div>
-              </div>
-              <div class="all-project-content">
-                <span class="status-pill orange-pill">DRAFT</span>
-                <h3>Gesture Control Arm</h3>
-                <p>Robotic arm controlled by gestures.</p>
-                <div class="all-project-meta">
-                  <span>7 components</span>
-                  <span>31% complete</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
         </div>
 
-        <!-- COMMUNITY PAGE -->
+        <div class="idea-grid" id="ideaGrid"></div>
 
-        <div class="page" id="community">
+      </section>
 
-          <div class="page-title-row">
-            <div>
-              <p class="eyebrow">INVENTOR NETWORK</p>
-              <h2>Community Ideas</h2>
-              <p>Discover what other creators are building.</p>
-            </div>
+      <!-- Community Section -->
+      <section class="page-section" id="communitySection">
 
-            <button class="primary-button" onclick="showToast('Your project can be shared soon')">
-              ＋ Share Project
-            </button>
+        <div class="page-title-row">
+          <div>
+            <p class="eyebrow">CREATE TOGETHER</p>
+            <h1>Community Ideas</h1>
+            <p class="page-description">
+              Discover interesting projects from other young inventors.
+            </p>
           </div>
 
-          <div class="community-grid">
+          <button class="primary-btn" id="shareIdeaBtn">＋ Share Idea</button>
+        </div>
 
-            <div class="community-card">
-              <div class="community-top">
-                <div class="community-avatar">A</div>
-                <div>
-                  <strong>Arun Robotics</strong>
-                  <small>2 hours ago</small>
-                </div>
-                <button>•••</button>
-              </div>
+        <div class="community-grid" id="communityGrid"></div>
 
-              <h3>Smart agriculture monitoring system</h3>
-              <p>
-                A system that checks soil moisture and automatically
-                controls water supply for plants.
-              </p>
+      </section>
 
-              <div class="community-image agriculture-image">
-                <div class="plant"></div>
-                <div class="soil"></div>
-                <div class="water-drop">◆</div>
-              </div>
+      <!-- Projects Section -->
+      <section class="page-section" id="projectsSection">
 
-              <div class="community-actions">
-                <button onclick="likePost(this)">♡ 24</button>
-                <button>♧ 8 comments</button>
-                <button>↗ Share</button>
-              </div>
+        <div class="page-title-row">
+          <div>
+            <p class="eyebrow">YOUR CREATIONS</p>
+            <h1>My Projects</h1>
+            <p class="page-description">
+              Manage and continue working on your saved inventions.
+            </p>
+          </div>
+
+          <button class="primary-btn" id="projectsNewBtn">＋ New Project</button>
+        </div>
+
+        <div class="project-grid large-project-grid" id="projectsGrid"></div>
+
+      </section>
+
+      <!-- Settings Section -->
+      <section class="page-section" id="settingsSection">
+
+        <div class="page-title-row">
+          <div>
+            <p class="eyebrow">PERSONALIZE YOUR LAB</p>
+            <h1>Settings</h1>
+            <p class="page-description">Control your RoboForge experience.</p>
+          </div>
+        </div>
+
+        <div class="settings-card">
+
+          <div class="setting-row">
+            <div>
+              <h3>Dark Interface</h3>
+              <p>Use the futuristic dark theme throughout the app.</p>
             </div>
+            <label class="toggle">
+              <input type="checkbox" id="darkModeToggle" checked>
+              <span></span>
+            </label>
+          </div>
 
-            <div class="community-card">
-              <div class="community-top">
-                <div class="community-avatar blue-avatar">S</div>
-                <div>
-                  <strong>Science Builder</strong>
-                  <small>Yesterday</small>
-                </div>
-                <button>•••</button>
-              </div>
-
-              <h3>My first robotic arm</h3>
-              <p>
-                Designed a robotic arm using three servo motors
-                and an Arduino controller.
-              </p>
-
-              <div class="community-image arm-community-image">
-                <div class="community-arm"></div>
-              </div>
-
-              <div class="community-actions">
-                <button onclick="likePost(this)">♡ 41</button>
-                <button>♧ 13 comments</button>
-                <button>↗ Share</button>
-              </div>
+          <div class="setting-row">
+            <div>
+              <h3>Animation Effects</h3>
+              <p>Enable glowing animations and floating effects.</p>
             </div>
+            <label class="toggle">
+              <input type="checkbox" id="animationToggle" checked>
+              <span></span>
+            </label>
+          </div>
 
+          <div class="setting-row">
+            <div>
+              <h3>Auto Save</h3>
+              <p>Automatically save your workspace locally.</p>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="autoSaveToggle" checked>
+              <span></span>
+            </label>
           </div>
 
         </div>
@@ -1339,28 +838,26 @@ int readDistance() {
 
   </div>
 
-  <div class="toast" id="toast">
-    <span>✓</span>
-    <p id="toastText">Success</p>
-  </div>
-
-  <div class="modal-overlay" id="projectModal">
+  <!-- New Project Modal -->
+  <div class="modal-backdrop" id="projectModal">
 
     <div class="modal-card">
 
-      <button class="modal-close" onclick="closeModal()">×</button>
+      <button class="modal-close" id="closeProjectModal">×</button>
 
       <div class="modal-icon">✦</div>
+      <h2>Create a new project</h2>
+      <p>Give your invention a name and start building.</p>
 
-      <h2>Create a new invention</h2>
-      <p>Give your project a name and start building.</p>
+      <label>Project Name</label>
+      <input type="text" id="projectNameInput" placeholder="My Amazing Robot">
 
-      <input id="projectName" placeholder="Example: Smart Ocean Monitor">
+      <label>Project Description</label>
+      <textarea id="projectDescriptionInput" placeholder="What are you going to build?"></textarea>
 
-      <div class="modal-actions">
-        <button class="secondary-button" onclick="closeModal()">Cancel</button>
-        <button class="primary-button" onclick="createProject()">Create Project</button>
-      </div>
+      <button class="primary-btn full-btn" id="createProjectBtn">
+        Create Project
+      </button>
 
     </div>
 
@@ -1369,4 +866,4 @@ int readDistance() {
   <script src="script.js"></script>
 
 </body>
-            </html>
+              </html>
